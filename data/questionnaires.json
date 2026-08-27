@@ -1,0 +1,132 @@
+{
+  "technical": {
+    "title": "TECHNICAL DIVISION",
+    "questions": [
+      {
+        "id": "q1",
+        "label": "Why Us? Why do you want to join the web dev team for ACM-W specifically? What caught your eye about our club?",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "The Tech Stack: What languages, frameworks, or tools do you usually like to build with? (e.g., HTML/CSS, React, Tailwind, Next.js, etc.)",
+        "required": true
+      },
+      {
+        "id": "q3",
+        "label": "Show Your Work: Drop a link to a project you are proud of (GitHub repo, live website, or portfolio). What part of it did you actually build?",
+        "required": true
+      },
+      {
+        "id": "q4",
+        "label": "Current Skill Level: Be honest—where are you at right now with your coding journey? (It is totally fine if you are a beginner, we just want to know your baseline).",
+        "required": true
+      },
+      {
+        "id": "q5",
+        "label": "What You Can Do: If you join the team, what kind of stuff do you actually want to help us build? (e.g., designing UI, writing frontend logic, managing databases, etc.)",
+        "required": true
+      },
+      {
+        "id": "q6",
+        "label": "The Commitment Check: We are a hands-on club that builds real stuff for our events. Are you down to actually show up and put in the work with the team?",
+        "required": true
+      }
+    ]
+  },
+  "design": {
+    "title": "DESIGN DIVISION",
+    "questions": [
+      {
+        "id": "q1",
+        "label": "Introduce yourself and why do you want to join ACM's Design Team?",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "Which design tools are you comfortable using? (Figma, Canva, Photoshop, Illustrator, etc.)",
+        "required": true
+      },
+      {
+        "id": "q3",
+        "label": "How would you design a poster for a technical event that attracts students?",
+        "required": true
+      },
+      {
+        "id": "q4",
+        "label": "If you're given ACM's logo and brand colors, how would you maintain consistency across different posts?",
+        "required": true
+      },
+      {
+        "id": "q5",
+        "label": "Tell us about a design you've created and explain the idea behind it.",
+        "required": true
+      },
+      {
+        "id": "q6",
+        "label": "You're given only 30 minutes to make an Instagram post before an event. What's your approach?",
+        "required": true
+      },
+      {
+        "id": "q7",
+        "label": "Attach your previous works.",
+        "required": true
+      }
+    ]
+  },
+  "management": {
+    "title": "MANAGEMENT DIVISION",
+    "questions": [
+      {
+        "id": "q1",
+        "label": "Why did you choose Management department?",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "Have you organized or volunteered any event?",
+        "required": true
+      },
+      {
+        "id": "q3",
+        "label": "If you have Volunteered any event, what was your role in it?",
+        "required": true
+      },
+      {
+        "id": "q4",
+        "label": "Why should we recruit you? What changes will you bring to the club?",
+        "required": true
+      }
+    ]
+  },
+  "sponsorship": {
+    "title": "SPONSORSHIP & PR DIVISION",
+    "questions": [
+      {
+        "id": "q1",
+        "label": "How would you approach a potential corporate sponsor for a hackathon?",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "Do you have any past experience in public relations or sponsorships?",
+        "required": true
+      }
+    ]
+  },
+  "content": {
+    "title": "CONTENT DIVISION",
+    "questions": [
+      {
+        "id": "q1",
+        "label": "Write a short 50-word Instagram caption promoting our upcoming hackathon.",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "Provide links to any articles, blogs, or copy you have previously written.",
+        "required": true
+      }
+    ]
+  }
+}
