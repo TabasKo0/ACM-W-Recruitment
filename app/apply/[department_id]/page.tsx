@@ -82,22 +82,7 @@ export default function Apply({ params }: Props) {
     };
 
     return (
-        <>
-            {/* TopNavBar */}
-            <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-main h-20 bg-surface border-b-4 border-primary shadow-[6px_6px_0px_0px_rgba(195,245,255,1)]">
-                <div className="font-headline-md text-headline-md font-black text-primary uppercase tracking-tighter">ACM-W CHENNAI</div>
-                <div className="hidden md:flex gap-gutter items-center">
-                    <Link className="text-on-surface-variant font-body-md text-body-md hover:bg-secondary-container hover:text-on-secondary-container px-2 py-1 transition-all" href="#">DOMAINS</Link>
-                    <Link className="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md hover:bg-secondary-container hover:text-on-secondary-container px-2 py-1 transition-all" href="#">RECRUITMENT</Link>
-                    <Link className="text-on-surface-variant font-body-md text-body-md hover:bg-secondary-container hover:text-on-secondary-container px-2 py-1 transition-all" href="#">ABOUT</Link>
-                </div>
-                <Link href="/departments" className="bg-primary text-on-primary font-label-md text-label-md px-4 py-2 border-2 border-primary hover:bg-transparent hover:text-primary transition-all shadow-[4px_4px_0px_0px_rgba(195,245,255,0.5)] active:shadow-none inline-block">
-                    BACK
-                </Link>
-            </nav>
-
-            {/* Main Content */}
-            <main className="flex-grow flex flex-col justify-center items-center px-margin-main py-stack-lg relative z-10 w-full mt-20">
+        <main className="flex-grow flex flex-col justify-center items-center px-margin-main py-stack-lg relative z-10 w-full">
                 {/* Header Section */}
                 <div className="w-[90%] md:w-[70%] max-w-none mx-auto mb-stack-lg flex flex-col items-center text-center gap-stack-md">
                     <Link className="group flex items-center gap-2 font-label-md text-label-md text-primary hover:text-primary-container transition-colors" href="/departments">
@@ -114,7 +99,7 @@ export default function Apply({ params }: Props) {
                 </div>
 
                 {/* Form Container */}
-                <div className="w-[90%] md:w-[70%] max-w-none mx-auto bg-background cyber-border border-secondary-container shadow-[8px_8px_0px_#00E5FF] p-8 md:p-12 relative">
+                <div className="w-[90%] md:w-[70%] max-w-none mx-auto bg-background cyber-border border-secondary-container shadow-[8px_8px_0px_0px_var(--color-primary-container)] p-8 md:p-12 relative">
                     
                     {/* Themed Error Popup */}
                     {errorMsg && (
@@ -146,7 +131,7 @@ export default function Apply({ params }: Props) {
 
                         {/* Submit Button */}
                         <div className="mt-8 flex justify-center">
-                            <button type="submit" className="w-full md:w-auto bg-primary-container text-on-primary-container border-[3px] border-on-primary-container font-headline-sm text-headline-sm px-8 py-4 font-black uppercase neo-btn shadow-[6px_6px_0px_0px_#00daf3] transition-all flex items-center justify-center gap-2 group">
+                            <button type="submit" className="w-full md:w-auto bg-primary-container text-on-primary-container border-[3px] border-on-primary-container font-headline-sm text-headline-sm px-8 py-4 font-black uppercase neo-btn cyber-shadow-magenta transition-all flex items-center justify-center gap-2 group">
                                 SAVE DETAILS
                                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">save</span>
                             </button>
@@ -154,18 +139,5 @@ export default function Apply({ params }: Props) {
                     </form>
                 </div>
             </main>
-
-
-            {/* Footer */}
-            <footer className="w-full py-stack-lg px-margin-main flex flex-col md:flex-row justify-between items-center gap-gutter bg-surface-container-highest border-t-4 border-secondary mt-auto relative z-10">
-                <div className="font-headline-md text-headline-md text-primary uppercase">ACM-W CHENNAI</div>
-                <div className="font-label-md text-label-md text-secondary text-center md:text-left">© 2024 ACM-W CHENNAI CHAPTER. BUILT FOR THE BOLD.</div>
-                <div className="flex gap-gutter font-label-md text-label-md">
-                    <a className="text-on-surface hover:text-primary transition-colors cursor-pointer uppercase" href="#">PRIVACY</a>
-                    <a className="text-on-surface hover:text-primary transition-colors cursor-pointer uppercase" href="#">CODE OF CONDUCT</a>
-                    <a className="text-on-surface hover:text-primary transition-colors cursor-pointer uppercase" href="#">CONTACT</a>
-                </div>
-            </footer>
-        </>
     );
 }

@@ -30,17 +30,15 @@ export async function POST(request: Request) {
             baseDetails.regNo || '',
             baseDetails.vitEmail || '',
             baseDetails.phoneNo || '',
-            baseDetails.yearOfStudy || '',
-            baseDetails.githubLink || '',
-            baseDetails.linkedinLink || ''
+            baseDetails.yearOfStudy || ''
         ];
 
         // Map internal department IDs to actual Google Sheet tab names based on your screenshot
         const SHEET_TAB_NAMES: Record<string, string> = {
-            'technical': 'technical', // or 'web-dev'
+            'technical': 'technical',
+            'webdev': 'web-dev',
             'design': 'design',
             'management': 'management',
-            'sponsorship': 'sponsorship',
             'content': 'social-media' // Mapped from screenshot
         };
 

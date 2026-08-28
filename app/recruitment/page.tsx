@@ -14,9 +14,7 @@ export default function RecruitmentBase() {
         regNo: '',
         vitEmail: '',
         phoneNo: '',
-        yearOfStudy: '',
-        githubLink: '',
-        linkedinLink: ''
+        yearOfStudy: ''
     });
 
     useEffect(() => {
@@ -64,18 +62,8 @@ export default function RecruitmentBase() {
     };
 
     return (
-        <>
-            {/* TopNavBar */}
-            <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-main h-20 bg-surface border-b-4 border-primary shadow-[6px_6px_0px_0px_rgba(195,245,255,1)]">
-                <div className="font-headline-md text-headline-md font-black text-primary uppercase tracking-tighter">ACM-W CHENNAI</div>
-                <Link href="/" className="bg-primary text-on-primary font-label-md text-label-md px-4 py-2 border-2 border-primary hover:bg-transparent hover:text-primary transition-all shadow-[4px_4px_0px_0px_rgba(195,245,255,0.5)] active:shadow-none inline-block">
-                    BACK HOME
-                </Link>
-            </nav>
-
-            {/* Main Content */}
-            <main className="flex-grow flex flex-col justify-center items-center px-margin-main py-stack-lg relative z-10 w-full mt-20">
-                {/* Header Section */}
+        <main className="flex-grow flex flex-col justify-center items-center px-margin-main py-stack-lg relative z-10 w-full">
+            {/* Header Section */}
                 <div className="w-[90%] md:w-[70%] max-w-none mx-auto mb-stack-lg flex flex-col items-center text-center gap-stack-md">
                     <div className="bg-primary-container text-on-primary-container font-label-md text-label-md font-bold px-4 py-2 border-2 border-surface-container-lowest inline-block">
                         STEP 1: IDENTITY VERIFICATION
@@ -87,7 +75,7 @@ export default function RecruitmentBase() {
                 </div>
 
                 {/* Form Container */}
-                <div className="w-[90%] md:w-[70%] max-w-none mx-auto bg-background cyber-border border-secondary-container shadow-[8px_8px_0px_#00E5FF] p-8 md:p-12 relative">
+                <div className="w-[90%] md:w-[70%] max-w-none mx-auto bg-background cyber-border border-secondary-container shadow-[8px_8px_0px_0px_var(--color-primary-container)] p-8 md:p-12 relative">
                     
                     {/* Themed Error Popup */}
                     {errorMsg && (
@@ -146,25 +134,9 @@ export default function RecruitmentBase() {
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-2">
-                            <label className="font-label-md text-label-md font-bold text-foreground uppercase tracking-widest flex items-center gap-2" htmlFor="githubLink">
-                                <span className="material-symbols-outlined text-primary-container text-sm">code</span>
-                                GITHUB LINK
-                            </label>
-                            <input className="cyber-input p-4 font-body-md text-body-md text-foreground w-full rounded-none" id="githubLink" name="githubLink" value={formData.githubLink} onChange={handleChange} placeholder="https://github.com/..."  />
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                            <label className="font-label-md text-label-md font-bold text-foreground uppercase tracking-widest flex items-center gap-2" htmlFor="linkedinLink">
-                                <span className="material-symbols-outlined text-primary-container text-sm">link</span>
-                                LINKEDIN LINK
-                            </label>
-                            <input className="cyber-input p-4 font-body-md text-body-md text-foreground w-full rounded-none" id="linkedinLink" name="linkedinLink" value={formData.linkedinLink} onChange={handleChange} placeholder="https://linkedin.com/in/..."  />
-                        </div>
-
                         {/* Submit Button */}
                         <div className="mt-8 flex justify-center">
-                            <button type="submit" className="w-full md:w-auto bg-primary-container text-on-primary-container border-[3px] border-on-primary-container font-headline-sm text-headline-sm px-8 py-4 font-black uppercase neo-btn shadow-[6px_6px_0px_0px_#00daf3] transition-all flex items-center justify-center gap-2 group">
+                            <button type="submit" className="w-full md:w-auto bg-primary-container text-on-primary-container border-[3px] border-on-primary-container font-headline-sm text-headline-sm px-8 py-4 font-black uppercase neo-btn cyber-shadow-magenta transition-all flex items-center justify-center gap-2 group">
                                 NEXT: CHOOSE DIVISIONS
                                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                             </button>
@@ -172,6 +144,5 @@ export default function RecruitmentBase() {
                     </form>
                 </div>
             </main>
-        </>
     );
 }

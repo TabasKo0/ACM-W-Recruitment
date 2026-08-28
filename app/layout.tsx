@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Anybody, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const anybody = Anybody({
   variable: "--font-anybody",
@@ -35,7 +37,9 @@ export default function RootLayout({
       <body
         className={`${anybody.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col uppercase font-body-md text-body-md overflow-x-hidden selection:bg-accent-pink selection:text-on-tertiary bg-background text-foreground`}
       >
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

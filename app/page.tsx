@@ -1,45 +1,100 @@
-import React from 'react';
+"use client";
+
+import React, { useRef } from 'react';
 import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import CRTWarp from '@/components/CRTWarp';
+
+const LinePath = ({
+  className,
+  scrollYProgress,
+}: {
+  className?: string;
+  scrollYProgress: any;
+}) => {
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <svg
+      width="1278"
+      height="2319"
+      viewBox="0 0 1278 2319"
+      fill="none"
+      overflow="visible"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <motion.path
+        d="M876.605 394.131C788.982 335.917 696.198 358.139 691.836 416.303C685.453 501.424 853.722 498.43 941.95 409.714C1016.1 335.156 1008.64 186.907 906.167 142.846C807.014 100.212 712.699 198.494 789.049 245.127C889.053 306.207 986.062 116.979 840.548 43.3233C743.932 -5.58141 678.027 57.1682 672.279 112.188C666.53 167.208 712.538 172.943 736.353 163.088C760.167 153.234 764.14 120.924 746.651 93.3868C717.461 47.4252 638.894 77.8642 601.018 116.979C568.164 150.908 557 201.079 576.467 246.924C593.342 286.664 630.24 310.55 671.68 302.614C756.114 286.446 729.747 206.546 681.86 186.442C630.54 164.898 492 209.318 495.026 287.644C496.837 334.494 518.402 366.466 582.455 367.287C680.013 368.538 771.538 299.456 898.634 292.434C1007.02 286.446 1192.67 309.384 1242.36 382.258C1266.99 418.39 1273.65 443.108 1247.75 474.477C1217.32 511.33 1149.4 511.259 1096.84 466.093C1044.29 420.928 1029.14 380.576 1033.97 324.172C1038.31 273.428 1069.55 228.986 1117.2 216.384C1152.2 207.128 1188.29 213.629 1194.45 245.127C1201.49 281.062 1132.22 280.104 1100.44 272.673C1065.32 264.464 1044.22 234.837 1032.77 201.413C1019.29 162.061 1029.71 131.126 1056.44 100.965C1086.19 67.4032 1143.96 54.5526 1175.78 86.1513C1207.02 117.17 1186.81 143.379 1156.22 166.691C1112.57 199.959 1052.57 186.238 999.784 155.164C957.312 130.164 899.171 63.7054 931.284 26.3214C952.068 2.12513 996.288 3.87363 1007.22 43.58C1018.15 83.2749 1003.56 122.644 975.969 163.376C948.377 204.107 907.272 255.122 913.558 321.045C919.727 385.734 990.968 497.068 1063.84 503.35C1111.46 507.456 1166.79 511.984 1175.68 464.527C1191.52 379.956 1101.26 334.985 1030.29 377.017C971.109 412.064 956.297 483.647 953.797 561.655C947.587 755.413 1197.56 941.828 936.039 1140.66C745.771 1285.32 321.926 950.737 134.536 1202.19C-6.68295 1391.68 -53.4837 1655.38 131.935 1760.5C478.381 1956.91 1124.19 1515 1201.28 1997.83C1273.66 2451.23 100.805 1864.7 303.794 2668.89"
+        stroke="var(--color-primary-container)"
+        strokeWidth="12"
+        style={{
+          pathLength,
+          strokeDashoffset: useTransform(pathLength, (value) => 1 - value),
+        }}
+      />
+    </svg>
+  );
+};
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
   return (
-    <div className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth bg-[#0A0F24]">
+    <div ref={containerRef} className="w-full overflow-x-hidden bg-[#0A0F24] relative scroll-smooth text-white">
+      {/* Interactive CRT Warp Background Effect */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
+        <CRTWarp
+          color="#de42fc"
+          backgroundColor="#0A0F24"
+          speed={0.35}
+          curvature={0.15}
+          scanlineStrength={0.2}
+          scanlineFrequency={150}
+          waveAmplitude={0.2}
+          waveFrequency={2.0}
+          bloom={1.2}
+          bloomRadius={1}
+          noise={0.06}
+          vignette={0.3}
+          brightness={1.1}
+          pixelation={1}
+          rgbShift={0.01}
+          mouseReact={true}
+          mouseStrength={0.4}
+          dpr={1}
+          fps={16}
+          paused={false}
+          className="w-[10px] h-full"
+        />
+      </div>
+
+      {/* Background SVG Animation */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0 flex justify-center opacity-30 mix-blend-screen">
+        <LinePath 
+          scrollYProgress={scrollYProgress} 
+          className="h-[100%] max-w-full"
+        />
+      </div>
 
       {/* Snap 1 */}
-      <section className="snap-start min-h-[100dvh] flex flex-col relative">
-
-{/*  JSON TopNavBar Component  */}
-<nav className="bg-[#0A0F24] w-full top-0 sticky border-b-4 border-foreground z-50">
-<div className="flex justify-between items-center w-full px-margin-main py-4 max-w-full mx-auto">
-<a className="font-headline-md text-headline-md font-black text-primary-container uppercase tracking-tighter" href="#">ACM-W CHENNAI</a>
-<div className="hidden md:flex items-center gap-gutter">
-<a className="text-foreground font-medium font-label-md text-label-md hover:text-accent-pink transition-colors" href="#about">EVENTS</a>
-<a className="text-accent-pink font-bold border-b-2 border-accent-pink font-label-md text-label-md" href="#team">RECRUIT</a>
-<a className="text-foreground font-medium font-label-md text-label-md hover:text-accent-pink transition-colors" href="#faq">FAQ</a>
-</div>
-
-<Link href="/recruitment" className="hidden md:block bg-primary-container text-on-primary-container border-[3px] border-on-primary-container font-label-md text-label-md px-4 py-2 font-bold uppercase neo-btn shadow-[6px_6px_0px_0px_#00daf3] transition-all">
-                APPLY NOW
-            </Link>
-<button className="md:hidden text-primary">
-<span className="material-symbols-outlined" data-icon="menu">menu</span>
-</button>
-{/*  Mobile Menu Trigger  */}
-<button className="md:hidden text-primary-container">
-<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>menu</span>
-</button>
-</div>
-</nav>
+      <section className="min-h-screen flex flex-col relative z-10">
 {/*  Marquee Banner  */}
-<div className="marquee-container w-full bg-[#00E5FF] border-y-4 border-black overflow-hidden py-2 flex whitespace-nowrap z-40 relative">
+<div className="marquee-container w-full bg-primary-container border-y-4 border-black overflow-hidden py-2 flex whitespace-nowrap z-40 relative">
 <div className="marquee-content flex gap-8 font-headline-md text-headline-md font-black text-black">
+<span>* ZERO BENCHWARMERS * 100% HANDS-ON EXECUTION * REAL MENTORSHIP * ACM-W CHENNAI RECRUITMENT LIVE *</span>
 <span>* ZERO BENCHWARMERS * 100% HANDS-ON EXECUTION * REAL MENTORSHIP * ACM-W CHENNAI RECRUITMENT LIVE *</span>
 <span>* ZERO BENCHWARMERS * 100% HANDS-ON EXECUTION * REAL MENTORSHIP * ACM-W CHENNAI RECRUITMENT LIVE *</span>
 </div>
 </div>
 
 {/*  Hero Section  */}
-<section className=" flex flex-col justify-center items-center text-center px-margin-main py-stack-lg relative overflow-hidden bg-[#0A0F24]">
+<section className=" flex flex-col justify-center items-center text-center px-margin-main py-stack-lg relative overflow-hidden bg-transparent">
 <div className="max-w-4xl z-10 flex flex-col items-center gap-stack-lg">
 <h1 className="font-headline-xl text-headline-xl md:text-[80px] font-black text-[#F3F4F6] leading-none">
                     A CLUB WHERE EVERYONE ACTUALLY BUILDS
@@ -56,13 +111,13 @@ export default function Home() {
 </section>
 
 {/*  Snap 2  */}
-<section className="snap-start min-h-[100dvh] flex flex-col justify-center px-margin-main py-stack-lg bg-[#0A0F24] w-full" id="why">
+<section className="min-h-screen flex flex-col justify-center px-margin-main py-stack-lg bg-transparent w-full relative z-10" id="why">
   <div className="max-w-7xl w-full mx-auto">
-<h2 className="font-headline-lg text-headline-lg font-black text-[#00E5FF] mb-stack-lg border-b-4 border-[#00E5FF] pb-2 inline-block">WHY EXECUTE WITH US</h2>
+<h2 className="font-headline-lg text-headline-lg font-black text-primary-container mb-stack-lg border-b-4 border-primary-container pb-2 inline-block">WHY EXECUTE WITH US</h2>
 <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
 {/*  Card 1  */}
-<div className="bg-[#0A0F24] border-4 border-[#00E5FF] p-stack-md cyber-shadow-cyan">
-<h3 className="font-headline-md text-headline-md text-[#00E5FF] mb-stack-sm flex items-center gap-2 font-black">
+<div className="bg-[#0A0F24] border-4 border-primary-container p-stack-md cyber-shadow-magenta">
+<h3 className="font-headline-md text-headline-md text-primary-container mb-stack-sm flex items-center gap-2 font-black">
 <span className="font-label-sm text-label-sm bg-accent-pink text-black font-black px-2 py-1">01</span> 
                         ZERO GATEKEEPING
                     </h3>
@@ -105,15 +160,15 @@ export default function Home() {
 </section>
 
 {/*  Snap 3  */}
-<section className="snap-start min-h-[100dvh] flex flex-col justify-center bg-[#0A0F24] border-t-4 border-white py-stack-lg">
+<section className="min-h-screen flex flex-col justify-center bg-transparent border-t-4 border-white py-stack-lg relative z-10">
   {/*  Timeline Section  */}
   <div className="px-margin-main max-w-5xl mx-auto w-full" id="timeline">
-    <h2 className="font-headline-lg text-headline-lg font-black text-[#00E5FF] mb-12 text-center">RECRUITMENT PROTOCOL</h2>
+    <h2 className="font-headline-lg text-headline-lg font-black text-primary-container mb-12 text-center">RECRUITMENT PROTOCOL</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-16 gap-x-12 relative">
       
       {/*  Step 1 (Top Left)  */}
-      <div className="bg-black border-4 border-[#00E5FF] p-6 w-full text-center cyber-shadow-cyan z-10 flex flex-col justify-center min-h-[160px] md:col-start-1 md:row-start-1 relative">
-        <span className="block font-headline-md text-headline-md text-[#00E5FF] font-black">1. APPLICATION</span>
+      <div className="bg-black border-4 border-primary-container p-6 w-full text-center cyber-shadow-magenta z-10 flex flex-col justify-center min-h-[160px] md:col-start-1 md:row-start-1 relative">
+        <span className="block font-headline-md text-headline-md text-primary-container font-black">1. APPLICATION</span>
         <span className="font-label-sm text-label-sm text-foreground mt-2 block">Form filling.</span>
         {/* Right Arrow (Desktop) */}
         <div className="hidden md:flex absolute top-1/2 -right-[3rem] w-[3rem] -translate-y-1/2 items-center justify-center pointer-events-none">
@@ -154,8 +209,8 @@ export default function Home() {
       </div>
       
       {/*  Step 4 (Bottom Left)  */}
-      <div className="bg-black border-4 border-[#00E5FF] p-6 w-full text-center cyber-shadow-cyan z-10 flex flex-col justify-center min-h-[160px] md:col-start-1 md:row-start-2 relative mt-16 md:mt-0">
-        <span className="block font-headline-md text-headline-md text-[#00E5FF] font-black">4. ONBOARDING</span>
+      <div className="bg-black border-4 border-primary-container p-6 w-full text-center cyber-shadow-magenta z-10 flex flex-col justify-center min-h-[160px] md:col-start-1 md:row-start-2 relative mt-16 md:mt-0">
+        <span className="block font-headline-md text-headline-md text-primary-container font-black">4. ONBOARDING</span>
         <span className="font-label-sm text-label-sm text-foreground mt-2 block">Finally, you&apos;re in!</span>
       </div>
     </div>
@@ -163,18 +218,18 @@ export default function Home() {
 </section>
 
 {/*  Snap 4  */}
-<section className="snap-start min-h-[100dvh] flex flex-col justify-between bg-[#0A0F24] pt-stack-lg">
+<section className="min-h-screen flex flex-col justify-between bg-transparent pt-stack-lg relative z-10">
   <div className="flex-grow flex flex-col justify-center">
 
 {/*  FAQ Section  */}
 <div className="px-margin-main max-w-3xl mx-auto w-full mb-stack-lg" id="faq">
-<h2 className="font-headline-lg text-headline-lg font-black text-[#00E5FF] mb-stack-lg text-center md:text-left">SYSTEM QUERIES (FAQ)</h2>
+<h2 className="font-headline-lg text-headline-lg font-black text-primary-container mb-stack-lg text-center md:text-left">SYSTEM QUERIES (FAQ)</h2>
 <div className="flex flex-col gap-stack-md">
 {/*  Accordion Item  */}
-<details className="group bg-black border-4 border-white transition-colors cyber-shadow-cyan mb-4">
+<details className="group bg-black border-4 border-white transition-colors cyber-shadow-magenta mb-4">
 <summary className="font-headline-md text-headline-md p-4 cursor-pointer flex justify-between items-center bg-black text-white hover:bg-gray-900 font-black">
                         DO I NEED PRIOR EXPERIENCE?
-                        <span className="material-symbols-outlined group-open:rotate-180 transition-transform text-[#00E5FF]">expand_more</span>
+                        <span className="material-symbols-outlined group-open:rotate-180 transition-transform text-primary-container">expand_more</span>
 </summary>
 <div className="p-4 border-t-4 border-white font-body-md text-body-md text-foreground bg-black">
                         Negative. Hunger and willingness to execute matter more than a polished resume. We train on the ground.
@@ -189,7 +244,7 @@ export default function Home() {
                         Affirmative. We actively look for fresh talent to mold into core team members over the years.
                     </div>
 </details>
-<details className="group bg-black border-4 border-white transition-colors cyber-shadow-pink">
+<details className="group bg-black border-4 border-white transition-colors cyber-shadow-pink mb-4">
 <summary className="font-headline-md text-headline-md p-4 cursor-pointer flex justify-between items-center bg-black text-white hover:bg-gray-900 font-black">
                         WHAT ROLES ARE OPEN?
                         <span className="material-symbols-outlined group-open:rotate-180 transition-transform text-accent-pink">expand_more</span>
@@ -198,25 +253,19 @@ export default function Home() {
                         Technical (Dev/Design), Operations, Logistics, and Marketing. We need builders across all domains.
                     </div>
 </details>
+<details className="group bg-black border-4 border-white transition-colors cyber-shadow-magenta">
+<summary className="font-headline-md text-headline-md p-4 cursor-pointer flex justify-between items-center bg-black text-white hover:bg-gray-900 font-black">
+                        CAN MEN JOIN ACM-W?
+                        <span className="material-symbols-outlined group-open:rotate-180 transition-transform text-primary-container">expand_more</span>
+</summary>
+<div className="p-4 border-t-4 border-white font-body-md text-body-md text-foreground bg-black">
+                        Affirmative. While ACM-W's core mission is to support, celebrate, and advocate for women in computing, membership and participation in our chapter are open to everyone regardless of gender. We welcome allies who want to execute and build with us.
+                    </div>
+</details>
 </div>
 </div>
 
-</div>
-{/*  JSON Footer Component  */}
-<footer className="bg-black w-full border-t-4 border-white mt-auto">
-<div className="flex flex-col md:flex-row justify-between items-center w-full px-margin-main py-stack-lg gap-stack-md">
-<div className="flex flex-col items-center md:items-start">
-<span className="font-headline-lg-mobile text-headline-lg-mobile font-black text-accent-pink uppercase tracking-tighter">ACM-W CHENNAI</span>
-<span className="font-label-sm text-label-sm text-foreground mt-2 text-center md:text-left">© 2024 ACM-W CHENNAI CHAPTER. BUILT FOR THE BOLD.</span>
-</div>
-<div className="flex gap-gutter font-label-sm text-label-sm text-foreground">
-<a className="hover:text-accent-pink transition-colors font-bold" href="#">CONSTITUTION</a>
-<a className="hover:text-accent-pink transition-colors font-bold" href="#">CODE OF CONDUCT</a>
-<a className="hover:text-accent-pink transition-colors font-bold" href="#">PRIVACY</a>
-<a className="hover:text-accent-pink transition-colors font-bold" href="#">CONTACT</a>
-</div>
-</div>
-</footer>
+  </div>
 </section>
 
     </div>

@@ -4,6 +4,51 @@
     "questions": [
       {
         "id": "q1",
+        "label": "Why do you want to join the technical team for ACM-W specifically? What caught your eye about our club?",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "The Tech Stack: What languages, frameworks, or tools do you usually like to build with?",
+        "required": true
+      },
+      {
+        "id": "q3",
+        "label": "Show Your Work: Drop a link to a project you are proud of (GitHub repo, live website, or portfolio). What part of it did you actually build?",
+        "required": true
+      },
+      {
+        "id": "q4",
+        "label": "Current Skill Level: Be honest—where are you at right now with your coding journey? (It is totally fine if you are a beginner, we just want to know your baseline).",
+        "required": true
+      },
+      {
+        "id": "q5",
+        "label": "What You Can Do: If you join the team, what kind of stuff do you actually want to help us build?",
+        "required": true
+      },
+      {
+        "id": "q6",
+        "label": "The Commitment Check: We are a hands-on club that builds real stuff for our events. Are you down to actually show up and put in the work with the team?",
+        "required": true
+      },
+      {
+        "id": "q7",
+        "label": "GITHUB LINK",
+        "required": false
+      },
+      {
+        "id": "q8",
+        "label": "LINKEDIN LINK",
+        "required": false
+      }
+    ]
+  },
+  "webdev": {
+    "title": "WEB DEV DIVISION",
+    "questions": [
+      {
+        "id": "q1",
         "label": "Why Us? Why do you want to join the web dev team for ACM-W specifically? What caught your eye about our club?",
         "required": true
       },
@@ -31,6 +76,16 @@
         "id": "q6",
         "label": "The Commitment Check: We are a hands-on club that builds real stuff for our events. Are you down to actually show up and put in the work with the team?",
         "required": true
+      },
+      {
+        "id": "q7",
+        "label": "GITHUB LINK",
+        "required": false
+      },
+      {
+        "id": "q8",
+        "label": "LINKEDIN LINK",
+        "required": false
       }
     ]
   },
@@ -95,21 +150,6 @@
       {
         "id": "q4",
         "label": "Why should we recruit you? What changes will you bring to the club?",
-        "required": true
-      }
-    ]
-  },
-  "sponsorship": {
-    "title": "SPONSORSHIP & PR DIVISION",
-    "questions": [
-      {
-        "id": "q1",
-        "label": "How would you approach a potential corporate sponsor for a hackathon?",
-        "required": true
-      },
-      {
-        "id": "q2",
-        "label": "Do you have any past experience in public relations or sponsorships?",
         "required": true
       }
     ]
