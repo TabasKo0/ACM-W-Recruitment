@@ -17,6 +17,11 @@ export default function Departments() {
         setCompletedDepts(completed);
     }, []);
 
+    const handleDeptReset = (deptId: string) => {
+        Cookies.remove(`dept_${deptId}`);
+        setCompletedDepts(prev => prev.filter(d => d !== deptId));
+    };
+
     const handleFinalSubmit = async () => {
         if (completedDepts.length === 0) {
             setSubmitStatus('ERROR: You must complete at least one department division.');
@@ -91,8 +96,8 @@ export default function Departments() {
 </div>
 
 {/*  Department Accordion Grid  */}
-<div className="mb-stack-lg">
-  <DepartmentAccordion completedDepts={completedDepts} />
+    <div className="mb-stack-lg">
+    <DepartmentAccordion completedDepts={completedDepts} onReset={handleDeptReset} />
 </div>
 {/*  Bottom Bar Notice  */}
 <div className="mt-stack-lg border-[3px] border-surface-container-highest bg-surface-container-low p-4 text-center">
