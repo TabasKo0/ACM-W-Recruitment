@@ -154,17 +154,93 @@
       }
     ]
   },
+  "finance": {
+    "title": "FINANCE / TREASURY",
+    "questions": [
+      {
+        "id": "q1",
+        "label": "Why do you want to join the Treasury Team?",
+        "required": true
+      },
+      {
+        "id": "q2",
+        "label": "What makes you suitable for handling financial responsibilities?",
+        "required": true
+      },
+      {
+        "id": "q3",
+        "label": "How comfortable are you with Microsoft Excel / Google Sheets?",
+        "type": "scale",
+        "options": "1-5 (1 = Beginner, 5 = Highly proficient)",
+        "required": true
+      },
+      {
+        "id": "q4",
+        "label": "Which of the following are you comfortable with?",
+        "type": "checkboxes",
+        "options": ["Excel / Google Sheets","Creating tables","Using formulas","Maintaining records","Data entry","Creating budgets","Preparing reports","None of the above"],
+        "required": true
+      },
+      {
+        "id": "q5",
+        "label": "Have you handled finances, budgets, reimbursements, or accounts before?",
+        "type": "yes_no",
+        "required": true
+      },
+      {
+        "id": "q6",
+        "label": "An event has a budget of ₹10,000, but the team estimates that the event will cost ₹12,000. What would you do?",
+        "required": true
+      },
+      {
+        "id": "q7",
+        "label": "You notice that ₹2,000 is missing from the expense records, but the event team says they spent it. How would you handle the situation?",
+        "required": true
+      },
+      {
+        "id": "q8",
+        "label": "If you receive ₹15,000 for an event and spend ₹11,750, how much remains?",
+        "type": "short_answer",
+        "required": true
+      }
+    ]
+  },
   "content": {
     "title": "CONTENT DIVISION",
     "questions": [
       {
         "id": "q1",
-        "label": "Write a short 50-word Instagram caption promoting our upcoming hackathon.",
+        "label": "If we give you a completely boring topic, how would you turn it into interesting content?",
         "required": true
       },
       {
         "id": "q2",
-        "label": "Provide links to any articles, blogs, or copy you have previously written.",
+        "label": "If you had unlimited resources, what kind of content would you create?",
+        "required": true
+      },
+      {
+        "id": "q3",
+        "label": "If you had to promote this club to someone who has never heard of it, what would your first post/reel be?",
+        "required": true
+      },
+      {
+        "id": "q4",
+        "label": "Would you rather create something you personally love or something you know the audience will like?",
+        "required": true
+      },
+      {
+        "id": "q5",
+        "label": "What would you do if you strongly disagreed with the team's content idea?",
+        "required": true
+      },
+      {
+        "id": "q6",
+        "label": "Give us a caption for this interview room right now.",
+        "required": true
+      },
+      {
+        "id": "q7",
+        "label": "Imagine you have to promote our event with ₹0 budget. What would you do?",
         "required": true
       }
     ]

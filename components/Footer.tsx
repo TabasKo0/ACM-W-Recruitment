@@ -13,14 +13,11 @@ export default function Footer() {
             ACM-W CHENNAI
           </Link>
           <span className="font-label-sm text-label-sm text-foreground mt-2 text-center md:text-left">
-            © 2024 ACM-W CHENNAI CHAPTER. BUILT FOR THE BOLD.
+            © 2026 ACM-W CHENNAI CHAPTER. BUILT FOR THE BOLD.
           </span>
         </div>
         <div className="flex flex-wrap justify-center gap-gutter font-label-sm text-label-sm text-foreground">
-          <a className="hover:text-accent-pink transition-colors font-bold" href="#">CONSTITUTION</a>
-          <a className="hover:text-accent-pink transition-colors font-bold" href="#">CODE OF CONDUCT</a>
-          <a className="hover:text-accent-pink transition-colors font-bold" href="#">PRIVACY</a>
-          <a className="hover:text-accent-pink transition-colors font-bold" href="#">CONTACT</a>
+          <a className="hover:text-accent-pink transition-colors font-bold" href="https://wa.link/m3iwow">CONTACT</a>
         </div>
       </div>
     </footer>
