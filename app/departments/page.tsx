@@ -12,7 +12,7 @@ export default function Departments() {
     const [submitStatus, setSubmitStatus] = useState<string | null>(null);
 
     useEffect(() => {
-        const depts = ['technical', 'webdev', 'design', 'management', 'content'];
+        const depts = ['technical', 'webdev', 'design', 'management', 'finance', 'content'];
         const completed = depts.filter(dept => !!Cookies.get(`dept_${dept}`));
         setCompletedDepts(completed);
     }, []);
