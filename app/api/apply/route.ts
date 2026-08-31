@@ -39,6 +39,7 @@ export async function POST(request: Request) {
             'webdev': 'web-dev',
             'design': 'design',
             'management': 'management',
+            'finance': 'finance',
             'content': 'social-media' // Mapped from screenshot
         };
 

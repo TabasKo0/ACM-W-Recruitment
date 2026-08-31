@@ -145,3 +145,32 @@ body {
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
 }
+
+/* Scroll progress bar (full width, theme-matching) */
+.scroll-progress-bar {
+  background: linear-gradient(90deg, var(--color-brand-purple), var(--color-accent-pink), var(--color-tertiary));
+  width: 0%;
+  transition: width 0.12s linear;
+  box-shadow: 0 6px 18px rgba(157,114,255,0.12), inset 0 0 18px rgba(255,255,255,0.02);
+  height: 8px;
+}
+
+.scroll-progress-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.65)), rgba(255,255,255,0.06);
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(168,85,247,0.18), 0 0 10px rgba(255,255,255,0.06) inset;
+  transform: translateY(-50%);
+  transition: transform 0.12s linear;
+  pointer-events: none;
+  margin-left: -9px;
+}
+
+@media (min-width: 768px) {
+  .scroll-progress-bar { height: 10px; }
+  .scroll-progress-dot { width: 20px; height: 20px; margin-left: -10px; }
+}
