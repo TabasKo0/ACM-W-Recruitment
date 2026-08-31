@@ -76,7 +76,7 @@ const CyberScrollTracker = ({ scrollYProgress }: { scrollYProgress: any }) => {
   const [percent, setPercent] = useState(0);
 
   // Update percentage text dynamically
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  useMotionValueEvent(scrollYProgress, "change", (latest: any) => {
     setPercent(Math.round(latest * 100));
   });
 
