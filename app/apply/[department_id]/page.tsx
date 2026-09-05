@@ -27,13 +27,17 @@ export default function Apply({ params }: Props) {
 
     // Load existing answers on mount
     React.useEffect(() => {
+        if (!Cookies.get('baseDetails')) {
+            router.push('/recruitment');
+            return;
+        }
         const saved = Cookies.get(`dept_${department_id}`);
         if (saved) {
             try {
                 setAnswers(JSON.parse(saved));
             } catch (e) {}
         }
-    }, [department_id]);
+    }, [department_id, router]);
 
     const handleAnswerChange = (qId: string, value: string) => {
         setAnswers(prev => ({ ...prev, [qId]: value }));

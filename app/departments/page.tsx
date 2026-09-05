@@ -12,10 +12,14 @@ export default function Departments() {
     const [submitStatus, setSubmitStatus] = useState<string | null>(null);
 
     useEffect(() => {
+        if (!Cookies.get('baseDetails')) {
+            router.push('/recruitment');
+            return;
+        }
         const depts = ['technical', 'webdev', 'design', 'management', 'finance', 'content'];
         const completed = depts.filter(dept => !!Cookies.get(`dept_${dept}`));
         setCompletedDepts(completed);
-    }, []);
+    }, [router]);
 
     const handleDeptReset = (deptId: string) => {
         Cookies.remove(`dept_${deptId}`);
