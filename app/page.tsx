@@ -123,7 +123,7 @@ const departmentsData = [
 
 const DepartmentExploreSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
+const sectionRef = useRef<HTMLElement | null>(null);
   const [wheelFontSize, setWheelFontSize] = useState(2.5);
 
   useEffect(() => {

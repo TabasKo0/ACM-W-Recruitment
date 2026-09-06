@@ -23,7 +23,7 @@ export interface OptionWheelProps {
   soundUrl?: string;
   soundVolume?: number;
   className?: string;
-  wheelContainerRef?: React.RefObject<HTMLElement>;
+  wheelContainerRef?: React.RefObject<HTMLElement|null>;
 }
 
 interface WheelConfig {
