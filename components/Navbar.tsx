@@ -76,13 +76,7 @@ export default function Navbar() {
           >
             WHY US
           </Link>
-          <Link 
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-foreground font-headline-md text-headline-md hover:text-accent-pink py-2" 
-            href="/departments"
-          >
-            DEPARTMENTS
-          </Link>
+         
           <Link 
             onClick={() => setMobileMenuOpen(false)}
             className="text-accent-pink font-headline-md text-headline-md py-2 font-bold" 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import CRTWarp from '@/components/CRTWarp';
@@ -123,91 +123,165 @@ const departmentsData = [
 
 const DepartmentExploreSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [wheelFontSize, setWheelFontSize] = useState(2.5);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWheelFontSize(window.innerWidth < 768 ? 1.5 : 2.5);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const activeDept = departmentsData[activeIndex];
   const items = departmentsData.map(d => d.title);
 
   return (
-    <section className="min-h-screen flex flex-col md:flex-row bg-transparent overflow-hidden relative z-10" id="departments">
-      {/* Option Wheel Section (Left) */}
-      <div className="w-full md:w-1/3 h-[50vh] md:h-screen relative flex flex-col justify-center border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 bg-transparent">
-        <div className="flex-1 w-full h-full relative">
-            <OptionWheel
-              items={items}
-              defaultSelected={0}
-              textColor="#a6a6a6"
-              activeColor="#ffffff"
-              side="left"
-              fontSize={2.5}
-              spacing={1.5}
-              curve={1.2}
-              tilt={10}
-              blur={2}
-              fade={0.25}
-              smoothing={200}
-              inset={50}
-              loop={false}
-              draggable={true}
-              onChange={(index) => setActiveIndex(index)}
-            />
+    <section ref={sectionRef} className="min-h-screen flex flex-col bg-transparent relative z-10" id="departments">
+      {/* DESKTOP VIEW */}
+      <div className="hidden md:flex flex-row w-full h-full min-h-screen">
+        {/* Option Wheel Section (Left) */}
+        <div className="w-1/3 h-screen relative flex flex-col justify-center border-r-[3px] border-white/10 bg-transparent">
+          <div className="flex-1 w-full h-full relative">
+              <OptionWheel
+                items={items}
+                defaultSelected={0}
+                textColor="#a6a6a6"
+                activeColor="#ffffff"
+                side="left"
+                fontSize={wheelFontSize}
+                spacing={1.5}
+                curve={1.2}
+                tilt={10}
+                blur={2}
+                fade={0.25}
+                smoothing={200}
+                inset={50}
+                loop={false}
+                draggable={true}
+                wheelContainerRef={sectionRef}
+                onChange={(index) => setActiveIndex(index)}
+              />
+          </div>
+        </div>
+
+        {/* Details Section (Right) */}
+        <div className="w-2/3 h-screen relative flex flex-col p-12 justify-center items-center bg-transparent">
+          <AnimatePresence mode="wait">
+              <motion.div
+                  key={activeDept.id}
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 1.05, y: -20 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  className={cn(
+                      "w-full max-w-2xl flex flex-col p-8 lg:p-12 border-[3px] border-black relative neo-card",
+                      activeDept.bgClass,
+                      activeDept.shadowClass
+                  )}
+              >
+                  <div className={cn(
+                      "inline-block border-[2px] font-label-sm text-label-sm px-3 py-2 mb-6 uppercase font-bold w-fit",
+                      activeDept.tagBg,
+                      activeDept.tagBorder,
+                      activeDept.tagText
+                  )}>
+                      {activeDept.tag}
+                  </div>
+                  
+                  <h1 className={cn(
+                      "font-headline-xl text-3xl lg:text-5xl uppercase mb-6",
+                      activeDept.title.includes("EVENTS") || activeDept.title.includes("CONTENT") || activeDept.id === 'webdev' || activeDept.id === 'design' ? "font-bold text-[#0A0F24]" : "text-white"
+                  )}>
+                      {activeDept.title}
+                  </h1>
+                  
+                  <p className={cn(
+                      "font-body-lg text-lg lg:text-xl mb-12 border-l-[4px] pl-4 border-black/20",
+                      activeDept.title.includes("EVENTS") || activeDept.title.includes("CONTENT") || activeDept.id === 'webdev' || activeDept.id === 'design' ? "font-medium text-[#0A0F24]" : "text-white/90"
+                  )}>
+                      {activeDept.description}
+                  </p>
+
+                  <div className="flex flex-col gap-4 mt-auto">
+                      <Link 
+                          href="/recruitment" 
+                          className={cn(
+                              "w-full border-[3px] font-headline-md text-label-lg lg:text-xl px-6 py-4 font-black uppercase neo-btn transition-all flex justify-between items-center text-center",
+                              activeDept.btnBg,
+                              activeDept.btnText,
+                              activeDept.btnBorder,
+                              activeDept.btnShadow,
+                              activeDept.btnHover
+                          )}
+                      >
+                          <span>START APPLICATION</span>
+                          <span className="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                      </Link>
+                  </div>
+              </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 
-      {/* Details Section (Right) */}
-      <div className="w-full md:w-2/3 h-full min-h-[50vh] md:min-h-screen relative flex flex-col p-6 md:p-12 justify-center items-center overflow-y-auto bg-transparent">
-        <AnimatePresence mode="wait">
-            <motion.div
-                key={activeDept.id}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 1.05, y: -20 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+      {/* MOBILE VIEW */}
+      <div className="flex md:hidden flex-col w-full px-margin-main py-stack-lg gap-12 relative z-10 min-h-screen">
+        <h2 className="font-headline-lg text-3xl font-black text-primary-container text-center border-b-4 border-primary-container pb-2 mx-auto inline-block">DEPARTMENTS</h2>
+        
+        <div className="flex flex-col gap-8 w-full">
+          {departmentsData.map((dept) => (
+            <div
+                key={dept.id}
                 className={cn(
-                    "w-full max-w-2xl flex flex-col p-8 md:p-12 border-[3px] border-black relative neo-card",
-                    activeDept.bgClass,
-                    activeDept.shadowClass
+                    "w-full flex flex-col p-6 border-[3px] border-black relative neo-card",
+                    dept.bgClass,
+                    dept.shadowClass
                 )}
             >
                 <div className={cn(
-                    "inline-block border-[2px] font-label-sm text-label-sm px-3 py-2 mb-6 uppercase font-bold w-fit",
-                    activeDept.tagBg,
-                    activeDept.tagBorder,
-                    activeDept.tagText
+                    "inline-block border-[2px] font-label-sm text-label-sm px-3 py-2 mb-4 uppercase font-bold w-fit",
+                    dept.tagBg,
+                    dept.tagBorder,
+                    dept.tagText
                 )}>
-                    {activeDept.tag}
+                    {dept.tag}
                 </div>
                 
                 <h1 className={cn(
-                    "font-headline-xl text-3xl md:text-5xl uppercase mb-6",
-                    activeDept.title.includes("EVENTS") || activeDept.title.includes("CONTENT") || activeDept.id === 'webdev' || activeDept.id === 'design' ? "font-bold text-[#0A0F24]" : "text-white"
+                    "font-headline-xl text-3xl uppercase mb-4",
+                    dept.title.includes("EVENTS") || dept.title.includes("CONTENT") || dept.id === 'webdev' || dept.id === 'design' ? "font-bold text-[#0A0F24]" : "text-white"
                 )}>
-                    {activeDept.title}
+                    {dept.title}
                 </h1>
                 
                 <p className={cn(
-                    "font-body-lg text-lg md:text-xl mb-12 border-l-[4px] pl-4 border-black/20",
-                    activeDept.title.includes("EVENTS") || activeDept.title.includes("CONTENT") || activeDept.id === 'webdev' || activeDept.id === 'design' ? "font-medium text-[#0A0F24]" : "text-white/90"
+                    "font-body-lg text-lg mb-8 border-l-[4px] pl-4 border-black/20",
+                    dept.title.includes("EVENTS") || dept.title.includes("CONTENT") || dept.id === 'webdev' || dept.id === 'design' ? "font-medium text-[#0A0F24]" : "text-white/90"
                 )}>
-                    {activeDept.description}
+                    {dept.description}
                 </p>
 
                 <div className="flex flex-col gap-4 mt-auto">
                     <Link 
                         href="/recruitment" 
                         className={cn(
-                            "w-full border-[3px] font-headline-md text-label-lg md:text-xl px-6 py-4 font-black uppercase neo-btn transition-all flex justify-between items-center text-center",
-                            activeDept.btnBg,
-                            activeDept.btnText,
-                            activeDept.btnBorder,
-                            activeDept.btnShadow,
-                            activeDept.btnHover
+                            "w-full border-[3px] font-headline-md text-label-lg px-4 py-3 font-black uppercase neo-btn transition-all flex justify-between items-center text-center",
+                            dept.btnBg,
+                            dept.btnText,
+                            dept.btnBorder,
+                            dept.btnShadow,
+                            dept.btnHover
                         )}
                     >
                         <span>START APPLICATION</span>
-                        <span className="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                        <span className="material-symbols-outlined">arrow_forward</span>
                     </Link>
                 </div>
-            </motion.div>
-        </AnimatePresence>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -250,7 +324,7 @@ const LinePath = ({
 // Sub-component for individual tracker nodes to handle their own localized transform animations
 const TrackerNode = ({ sec, scrollYProgress }: { sec: any, scrollYProgress: any }) => {
   // 1. Clamp startRange so it never drops below 0
-  const startRange = Math.max(0, sec.pos - 0.1);
+  const startRange = Math.max(0, sec.pos - 0.2);
   // 2. Ensure endRange is strictly greater than startRange
   const endRange = Math.max(startRange + 0.01, sec.pos);
 
@@ -289,9 +363,10 @@ const CyberScrollTracker = ({ scrollYProgress }: { scrollYProgress: any }) => {
   });
 
   const SECTIONS = [
-    { name: "SYS.INIT", pos: 0.08, color: "#F3F4F6" },
-    { name: "EXEC_WHY", pos: 0.35, color: "#9D72FF" },
-    { name: "PROTOCOL", pos: 0.65, color: "#FF7EE2" },
+    { name: "SYS.INIT", pos: -0, color: "#F3F4F6" },
+    { name: "EXEC_WHY", pos: 0.25, color: "#9D72FF" },
+    { name: "DEPARTMENTS", pos: 0.50, color: "#9D72FF" },
+    { name: "PROTOCOL", pos: 0.75, color: "#FF7EE2" },
     { name: "SYS.FAQ", pos: 0.95, color: "#F3F4F6" }
   ];
 

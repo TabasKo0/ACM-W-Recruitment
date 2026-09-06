@@ -23,6 +23,7 @@ export interface OptionWheelProps {
   soundUrl?: string;
   soundVolume?: number;
   className?: string;
+  wheelContainerRef?: React.RefObject<HTMLElement>;
 }
 
 interface WheelConfig {
@@ -77,7 +78,8 @@ const OptionWheel = ({
   draggable = true,
   soundUrl = '',
   soundVolume = 0.5,
-  className = ''
+  className = '',
+  wheelContainerRef
 }: OptionWheelProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -216,14 +218,25 @@ const OptionWheel = ({
 
   // Wheel / touchpad scrolling, registered manually so it can be non-passive.
   useEffect(() => {
-    const el = rootRef.current;
+    const el = wheelContainerRef?.current || rootRef.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
       const cfg = cfgRef.current;
       const delta = e.deltaMode === 1 ? e.deltaY * 24 : e.deltaY;
       const step = Math.max(-1, Math.min(1, delta / cfg.rowH));
-      applyTarget(targetRef.current + step, false);
+      const nextTarget = targetRef.current + step;
+
+      if (!cfg.loop) {
+        if (delta < 0 && targetRef.current <= 0.01) {
+          return; // Let the page scroll up
+        }
+        if (delta > 0 && targetRef.current >= cfg.count - 1 - 0.01) {
+          return; // Let the page scroll down
+        }
+      }
+
+      e.preventDefault();
+      applyTarget(nextTarget, false);
       if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
       wheelTimerRef.current = setTimeout(() => applyTarget(targetRef.current, true), 140);
     };
@@ -310,7 +323,7 @@ const OptionWheel = ({
       role="listbox"
       tabIndex={0}
       aria-label="Option wheel"
-      className={`relative h-full w-full select-none overflow-hidden outline-none [touch-action:none] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}${className ? ` ${className}` : ''}`}
+      className={`relative h-full w-full select-none overflow-hidden outline-none [touch-action:pan-y] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}${className ? ` ${className}` : ''}`}
       style={
         {
           '--ow-text-color': textColor,
