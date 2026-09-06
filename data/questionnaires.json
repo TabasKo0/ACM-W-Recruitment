@@ -176,7 +176,7 @@
       },
       {
         "id": "q4",
-        "label": "Which of the following are you comfortable with?",
+        "label": "What finance softwares have you used?",
         "type": "checkboxes",
         "options": ["Excel / Google Sheets","Creating tables","Using formulas","Maintaining records","Data entry","Creating budgets","Preparing reports","None of the above"],
         "required": true
@@ -235,7 +235,7 @@
       },
       {
         "id": "q6",
-        "label": "Give us a caption for this interview room right now.",
+        "label": "Give us a caption for this interview right now.",
         "required": true
       },
       {
