@@ -10,12 +10,20 @@ export default function Departments() {
     const [completedDepts, setCompletedDepts] = useState<string[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<string | null>(null);
+    const [applicantName, setApplicantName] = useState('');
 
     useEffect(() => {
-        if (!Cookies.get('baseDetails')) {
+        const baseDetails = Cookies.get('baseDetails');
+        if (!baseDetails) {
             router.push('/recruitment');
             return;
         }
+
+        try {
+            const parsed = JSON.parse(baseDetails);
+            setApplicantName(parsed?.fullName || '');
+        } catch (error) {}
+
         const depts = ['technical', 'webdev', 'design', 'management', 'finance', 'content'];
         const completed = depts.filter(dept => !!Cookies.get(`dept_${dept}`));
         setCompletedDepts(completed);
@@ -52,10 +60,23 @@ export default function Departments() {
             });
 
             if (res.ok) {
+                const applicantName = payload?.baseDetails?.fullName || '';
+                if (typeof window !== 'undefined') {
+                    window.sessionStorage.setItem('applicantName', applicantName);
+                    window.sessionStorage.setItem(
+                        'submittedApplication',
+                        JSON.stringify({
+                            ...payload,
+                            applicantName,
+                            submittedAt: new Date().toISOString(),
+                        })
+                    );
+                }
+
                 Cookies.remove('baseDetails');
                 completedDepts.forEach(dept => Cookies.remove(`dept_${dept}`));
                 setSubmitStatus('SUCCESS: Application transmitted securely.');
-                setTimeout(() => router.push('/'), 3000);
+                router.push('/application-submitted');
             } else {
                 setSubmitStatus('ERROR: Transmission failed. Please try again.');
             }
@@ -115,8 +136,8 @@ export default function Departments() {
 <div className="bg-surface-container-low mt-4 border-[2px] border-red-500/30 p-4 mb-stack-lg flex flex-col md:flex-row items-start md:items-center gap-2 rounded-md">
     <span className="material-symbols-outlined text-red-400">info</span>
     <p className="font-body-md text-on-surface-variant m-0">
-        <span className="text-red-400 font-bold uppercase mr-2">Friendly Reminder:</span>
-        Your application is not complete until you press the final submit button above.
+                <span className="text-red-400 font-bold uppercase mr-2">Friendly Reminder:</span>
+                {applicantName ? `${applicantName}, ` : ''}your application is not complete until you press the final submit button above.
     </p>
 </div>
 </main>

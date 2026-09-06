@@ -19,6 +19,7 @@ export default function Apply({ params }: Props) {
     const { department_id } = use(params);
     const router = useRouter();
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [applicantName, setApplicantName] = useState('');
 
     // Initialize answers state
     const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -27,10 +28,17 @@ export default function Apply({ params }: Props) {
 
     // Load existing answers on mount
     React.useEffect(() => {
-        if (!Cookies.get('baseDetails')) {
+        const baseDetails = Cookies.get('baseDetails');
+        if (!baseDetails) {
             router.push('/recruitment');
             return;
         }
+
+        try {
+            const parsed = JSON.parse(baseDetails);
+            setApplicantName(parsed?.fullName || '');
+        } catch (error) {}
+
         const saved = Cookies.get(`dept_${department_id}`);
         if (saved) {
             try {
@@ -94,11 +102,11 @@ export default function Apply({ params }: Props) {
                         [ CHANGE DIVISION ]
                     </Link>
                     <div className="bg-primary-container text-on-primary-container font-label-md text-label-md font-bold px-4 py-2 border-2 border-surface-container-lowest inline-block">
-                        CURRENT TRACK: {deptData.title}
+                        {applicantName ? `${applicantName.toUpperCase()} :: CURRENT TRACK: ${deptData.title}` : `CURRENT TRACK: ${deptData.title}`}
                     </div>
                     <div className="mt-stack-sm">
                         <h1 className="font-headline-xl text-headline-xl text-foreground uppercase">INITIALIZE APPLICATION</h1>
-                        <p className="font-body-lg text-body-lg text-on-surface-variant mt-2 max-w-xl mx-auto">No generic essays. Keep it honest and tell us how you like to build.</p>
+                        <p className="font-body-lg text-body-lg text-on-surface-variant mt-2 max-w-xl mx-auto">{applicantName ? `${applicantName}, keep it honest and tell us how you like to build.` : 'No generic essays. Keep it honest and tell us how you like to build.'}</p>
                     </div>
                 </div>
 

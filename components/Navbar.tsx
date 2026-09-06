@@ -1,15 +1,58 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [applicantName, setApplicantName] = useState('');
+
+  useEffect(() => {
+    const deptIds = ['technical', 'webdev', 'design', 'management', 'finance', 'content'];
+
+    try {
+      const baseDetails = Cookies.get('baseDetails');
+      if (baseDetails) {
+        const parsed = JSON.parse(baseDetails);
+        setApplicantName(parsed?.fullName || '');
+      } else if (typeof window !== 'undefined') {
+        const savedName = window.sessionStorage.getItem('applicantName');
+        setApplicantName(savedName || '');
+      }
+    } catch (error) {
+      setApplicantName('');
+    }
+
+    if (pathname === '/application-submitted') {
+      setProgress(100);
+      return;
+    }
+
+    if (pathname.startsWith('/apply/')) {
+      setProgress(75);
+      return;
+    }
+
+    if (pathname === '/departments') {
+      const hasAnyDepartmentCompleted = deptIds.some((dept) => !!Cookies.get(`dept_${dept}`));
+      setProgress(hasAnyDepartmentCompleted ? 75 : 50);
+      return;
+    }
+
+    if (pathname === '/recruitment') {
+      setProgress(25);
+      return;
+    }
+
+    setProgress(0);
+  }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0A0F24] border-b-4 border-foreground">
+    <header className="sticky top-0 z-50 w-full bg-[#0A0F24]">
       <div className="flex justify-between items-center w-full px-margin-main py-4 max-w-full mx-auto">
         <Link 
           className="font-headline-md text-headline-md font-black text-primary-container uppercase tracking-tighter hover:opacity-90 transition-opacity" 
@@ -46,6 +89,11 @@ export default function Navbar() {
 
         {/* Action Button & Mobile Toggle */}
         <div className="flex items-center gap-3">
+          <div className="hidden md:flex flex-col items-end leading-none text-[11px] font-black tracking-[0.3em] text-foreground/70 gap-1">
+            {applicantName && <span className="text-foreground">{applicantName.toUpperCase()}</span>}
+            <span className="text-foreground">PROGRESS {progress}%</span>
+          </div>
+
           <Link 
             href="/recruitment" 
             className="hidden md:block bg-primary-container text-on-primary-container border-[3px] border-on-primary-container font-label-md text-label-md px-4 py-2 font-bold uppercase neo-btn cyber-shadow-magenta transition-all"
@@ -106,6 +154,13 @@ export default function Navbar() {
           </Link>
         </div>
       )}
+
+      <div className="h-1 w-full bg-white relative overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-[#ff7ee2] via-[#de42fc] to-[#9d72ff] transition-all duration-500 ease-out shadow-[0_0_12px_rgba(222,66,252,0.8)]"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
     </header>
   );
 }
