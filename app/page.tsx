@@ -2,8 +2,216 @@
 
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import CRTWarp from '@/components/CRTWarp';
+import dynamic from 'next/dynamic';
+
+const OptionWheel = dynamic(() => import('@/components/optionWheel'), { ssr: false });
+
+const cn = (...classes: (string | undefined | null | false)[]) => classes.filter(Boolean).join(' ');
+
+const departmentsData = [
+  {
+    id: 'technical',
+    tag: 'CODE • BUILD • TEACH',
+    title: 'TECHNICAL',
+    description: 'Website development, hackathon problem statements, technical workshops, and dev tooling.',
+    bgClass: 'bg-secondary-container',
+    borderClass: 'border-white',
+    textClass: 'text-white',
+    shadowClass: 'shadow-[6px_6px_0px_#9D72FF]',
+    tagBg: 'bg-secondary-container',
+    tagBorder: 'border-white',
+    tagText: 'text-white',
+    btnBg: 'bg-white',
+    btnText: 'text-secondary-container',
+    btnBorder: 'border-white',
+    btnShadow: 'shadow-[6px_6px_0px_0px_#9D72FF]',
+    btnHover: 'hover:opacity-90',
+  },
+  {
+    id: 'webdev',
+    tag: 'FRONTEND • BACKEND • WEB',
+    title: 'WEB DEV',
+    description: 'React, Next.js, UI engineering, and building digital platforms for the community.',
+    bgClass: 'bg-brand-purple',
+    borderClass: 'border-white',
+    textClass: 'text-[#0A0F24]',
+    shadowClass: 'shadow-[6px_6px_0px_#de42fc]',
+    tagBg: 'bg-brand-purple',
+    tagBorder: 'border-[#0A0F24]',
+    tagText: 'text-[#0A0F24]',
+    btnBg: 'bg-[#0A0F24]',
+    btnText: 'text-brand-purple',
+    btnBorder: 'border-[#0A0F24]',
+    btnShadow: 'shadow-[6px_6px_0px_0px_white]',
+    btnHover: 'hover:bg-surface-container-highest',
+  },
+  {
+    id: 'design',
+    tag: 'VISUALS • BRANDING • UI',
+    title: 'DESIGN & UI/UX',
+    description: 'Website UI/UX, event posters, visual branding, social media assets, and badges.',
+    bgClass: 'bg-primary-container',
+    borderClass: 'border-white',
+    textClass: 'text-[#0A0F24]',
+    shadowClass: 'shadow-[6px_6px_0px_#FF7EE2]',
+    tagBg: 'bg-primary-container',
+    tagBorder: 'border-[#0A0F24]',
+    tagText: 'text-[#0A0F24]',
+    btnBg: 'bg-[#0A0F24]',
+    btnText: 'text-primary-container',
+    btnBorder: 'border-[#0A0F24]',
+    btnShadow: 'shadow-[6px_6px_0px_0px_white]',
+    btnHover: 'hover:bg-surface-container-highest',
+  },
+  {
+    id: 'management',
+    tag: 'LOGISTICS • EXECUTION',
+    title: 'EVENTS & OPS',
+    description: 'Hackathon floor management, venue coordination, timeline planning, and workshop flow.',
+    bgClass: 'bg-accent-pink',
+    borderClass: 'border-white',
+    textClass: 'text-[#0A0F24]',
+    shadowClass: 'shadow-[6px_6px_0px_#ffd6f6]',
+    tagBg: 'bg-accent-pink',
+    tagBorder: 'border-[#0A0F24]',
+    tagText: 'text-[#0A0F24]',
+    btnBg: 'bg-[#0A0F24]',
+    btnText: 'text-accent-pink',
+    btnBorder: 'border-[#0A0F24]',
+    btnShadow: 'shadow-[6px_6px_0px_0px_white]',
+    btnHover: 'hover:bg-surface-container-highest',
+  },
+  {
+    id: 'finance',
+    tag: 'BILLS • BUDGET • ACCOUNTS',
+    title: 'FINANCE & TREASURY',
+    description: 'Budgeting, reimbursements, financial records, sponsor tracking, and expense workflows.',
+    bgClass: 'bg-emerald-600',
+    borderClass: 'border-white',
+    textClass: 'text-white',
+    shadowClass: 'shadow-[6px_6px_0px_#10B981]',
+    tagBg: 'bg-emerald-600',
+    tagBorder: 'border-white',
+    tagText: 'text-white',
+    btnBg: 'bg-white',
+    btnText: 'text-emerald-600',
+    btnBorder: 'border-white',
+    btnShadow: 'shadow-[6px_6px_0px_0px_#10B981]',
+    btnHover: 'hover:opacity-90',
+  },
+  {
+    id: 'content',
+    tag: 'COPY • STORYTELLING',
+    title: 'CONTENT & EDITORIAL',
+    description: 'Social media copy, newsletters, documentation, and event campaign writing.',
+    bgClass: 'bg-primary',
+    borderClass: 'border-white',
+    textClass: 'text-[#0A0F24]',
+    shadowClass: 'shadow-[6px_6px_0px_#5724b6]',
+    tagBg: 'bg-primary',
+    tagBorder: 'border-[#0A0F24]',
+    tagText: 'text-[#0A0F24]',
+    btnBg: 'bg-[#0A0F24]',
+    btnText: 'text-primary',
+    btnBorder: 'border-[#0A0F24]',
+    btnShadow: 'shadow-[6px_6px_0px_0px_white]',
+    btnHover: 'hover:bg-surface-container-highest',
+  }
+];
+
+const DepartmentExploreSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeDept = departmentsData[activeIndex];
+  const items = departmentsData.map(d => d.title);
+
+  return (
+    <section className="min-h-screen flex flex-col md:flex-row bg-transparent overflow-hidden relative z-10" id="departments">
+      {/* Option Wheel Section (Left) */}
+      <div className="w-full md:w-1/3 h-[50vh] md:h-screen relative flex flex-col justify-center border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 bg-transparent">
+        <div className="flex-1 w-full h-full relative">
+            <OptionWheel
+              items={items}
+              defaultSelected={0}
+              textColor="#a6a6a6"
+              activeColor="#ffffff"
+              side="left"
+              fontSize={2.5}
+              spacing={1.5}
+              curve={1.2}
+              tilt={10}
+              blur={2}
+              fade={0.25}
+              smoothing={200}
+              inset={50}
+              loop={false}
+              draggable={true}
+              onChange={(index) => setActiveIndex(index)}
+            />
+        </div>
+      </div>
+
+      {/* Details Section (Right) */}
+      <div className="w-full md:w-2/3 h-full min-h-[50vh] md:min-h-screen relative flex flex-col p-6 md:p-12 justify-center items-center overflow-y-auto bg-transparent">
+        <AnimatePresence mode="wait">
+            <motion.div
+                key={activeDept.id}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 1.05, y: -20 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className={cn(
+                    "w-full max-w-2xl flex flex-col p-8 md:p-12 border-[3px] border-black relative neo-card",
+                    activeDept.bgClass,
+                    activeDept.shadowClass
+                )}
+            >
+                <div className={cn(
+                    "inline-block border-[2px] font-label-sm text-label-sm px-3 py-2 mb-6 uppercase font-bold w-fit",
+                    activeDept.tagBg,
+                    activeDept.tagBorder,
+                    activeDept.tagText
+                )}>
+                    {activeDept.tag}
+                </div>
+                
+                <h1 className={cn(
+                    "font-headline-xl text-3xl md:text-5xl uppercase mb-6",
+                    activeDept.title.includes("EVENTS") || activeDept.title.includes("CONTENT") || activeDept.id === 'webdev' || activeDept.id === 'design' ? "font-bold text-[#0A0F24]" : "text-white"
+                )}>
+                    {activeDept.title}
+                </h1>
+                
+                <p className={cn(
+                    "font-body-lg text-lg md:text-xl mb-12 border-l-[4px] pl-4 border-black/20",
+                    activeDept.title.includes("EVENTS") || activeDept.title.includes("CONTENT") || activeDept.id === 'webdev' || activeDept.id === 'design' ? "font-medium text-[#0A0F24]" : "text-white/90"
+                )}>
+                    {activeDept.description}
+                </p>
+
+                <div className="flex flex-col gap-4 mt-auto">
+                    <Link 
+                        href="/recruitment" 
+                        className={cn(
+                            "w-full border-[3px] font-headline-md text-label-lg md:text-xl px-6 py-4 font-black uppercase neo-btn transition-all flex justify-between items-center text-center",
+                            activeDept.btnBg,
+                            activeDept.btnText,
+                            activeDept.btnBorder,
+                            activeDept.btnShadow,
+                            activeDept.btnHover
+                        )}
+                    >
+                        <span>START APPLICATION</span>
+                        <span className="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                    </Link>
+                </div>
+            </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+};
 
 const LinePath = ({
   className,
@@ -160,7 +368,7 @@ export default function Home() {
           dpr={1}
           fps={16}
           paused={false}
-          className="w-[10px] h-full"
+          className="w-full h-full"
         />
       </div>
 
@@ -195,8 +403,8 @@ export default function Home() {
             <p className="font-body-lg text-body-lg text-[#F3F4F6] max-w-2xl bg-black p-4 border-4 border-white">
               No fluff. Just raw execution, building tools, running operations, and scaling high-footfall hackathons. We are recruiting the next generation of builders.
             </p>
-            <Link className="mt-stack-lg bg-[#9D72FF] text-black font-headline-md text-headline-md px-8 py-4 border-4 border-white cyber-shadow-cyan cyber-interactive flex items-center gap-2 group font-black" href="/recruitment">
-              INITIALIZE APPLICATION 
+            <Link className="mt-stack-lg bg-[#9D72FF] text-black font-headline-md text-headline-md px-8 py-4 border-4 border-white cyber-shadow-cyan cyber-interactive flex items-center gap-2 group font-black" href="#departments">
+              EXPLORE DEPARTMENTS
               <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
             </Link>
           </div>
@@ -251,6 +459,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Snap 2.5: Department Explore */}
+      <DepartmentExploreSection />
 
       {/* Snap 3 */}
       <section className="min-h-screen flex flex-col justify-center bg-transparent py-stack-lg relative z-10">
